@@ -1,4 +1,8 @@
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+ENV = load_dotenv('./.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -19,7 +23,9 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 # 추가한 앱
-CUSTOM_PARTY_APPS = []
+CUSTOM_PARTY_APPS = [
+    'users',
+]
 
 # 써드 파티 앱
 THIRD_PARTY_APPS = [
@@ -63,8 +69,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'postgres'),  # 데이터 베이스 이름
+        'USER': os.environ.get('DB_USER', 'postgres'),  # 데이터베이스 접속우저
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
